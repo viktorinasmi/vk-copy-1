@@ -2,6 +2,8 @@ import {Avatar, Box, Card, List, ListItem, ListItemButton, ListItemIcon, ListIte
 // @ts-ignore
 import {Link, useHistory} from "react-router-dom";
 import {QuestionAnswer} from "@mui/icons-material";
+import {users} from "./dataUsers";
+
 
 export  const UserItems = () => {
     const history =useHistory();
@@ -15,12 +17,17 @@ export  const UserItems = () => {
                 border: 'none',
                 borderRadius: 3,
             }}>
-            <Link to='/profile' style={{
+            {users.map(user => (
+            <Link
+                key={user._id}
+                to={`/profile/${user._id}`}
+                style={{
                 display: 'flex',
                 alignItems: 'center',
                 textDecoration: 'none',
                 color: '#111',
                 marginBottom: 12,
+                    marginLeft:12,
             }}>
                 <Box sx={{
                     position: 'relative',
@@ -30,7 +37,7 @@ export  const UserItems = () => {
                     height: 50,
                 }}>
                     <Avatar
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLe5PABjXc17cjIMOibECLM7ppDwMmiDg6Dw&usqp=CAU"
+                        src={user.avatar}
                         alt="avatar"
                         sx={{
                             width: '48',
@@ -38,6 +45,7 @@ export  const UserItems = () => {
                             borderRadius: '50%',
                         }}
                     />
+                    {user.isInNetwork &&
                     <Box sx={{
                         backgroundColor: '#4FB14F',
                         border: '2px solid #f1f7fa',
@@ -48,9 +56,11 @@ export  const UserItems = () => {
                         right:10,
                         borderRadius: 50,
                     }}/>
+                    }
                 </Box>
-                <span style={{fontSize: 14}}>Дмитрий Лыжкин</span>
+                <span style={{fontSize: 14}}>{user.name}</span>
             </Link>
+            ))}
             <List>
                 <ListItem disablePadding>
                     <ListItemButton onClick={() => history.push('/messages')}>

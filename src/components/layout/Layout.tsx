@@ -11,11 +11,11 @@ export const Layout =({children}:ILayout) =>{
     return(
         <>
             <Header/>
-            <Grid container spacing={2} marginX={5} marginTop={2}>
-                <Grid item md={2}>
+            <Grid container spacing={2} paddingX={5} marginTop={2}>
+                <Grid item md={3}>
                     <Sidebar/>
                 </Grid>
-                <Grid item md={10}>
+                <Grid item md={9}>
                     {children}
                 </Grid>
             </Grid>
