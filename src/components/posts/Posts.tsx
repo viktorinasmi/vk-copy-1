@@ -12,14 +12,15 @@ interface IPosts {
 export const Posts: FC<IPosts> = ({posts}) => {
     return (
         <>
-            {posts.map(post => (
+            {posts.map((post,idx) => (
                 <Box
                     sx={{
                         border: '1px solid #e2e2e2',
                         borderRadius: '10px',
                         padding: 2,
                         marginTop:3,
-                    }}>
+                    }}
+                    key={`Post-${idx}`}>
                     <Link
                         key={post.author._id}
                         to={`/profile/${post.author._id}}`}

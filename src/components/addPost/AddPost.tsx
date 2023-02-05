@@ -1,23 +1,25 @@
 import {Box, TextField} from "@mui/material";
-import {FC, useState} from "react";
+import React, {FC, useState} from "react";
 import {IPost, TypeSetState} from "./types";
 import {users} from "../layout/sidebar/UserItems/dataUsers";
+
 
 interface IAddPost {
     setPosts: TypeSetState<IPost[]>
 }
 
 export const AddPost:FC<IAddPost> = ({setPosts}) => {
-    const [content, setContent] =useState('')
+    const [content, setContent] =useState<string>('')
 
-    const addPostHandler = () => {
-        setPosts(prev => [...prev, {
+    const addPostHandler = (e: React.KeyboardEvent<HTMLDivElement>) => {
+        if(e.key ==='Enter')
+        setPosts(prev => [ {
             author: users[0],
             content,
             createdAt: '5 минут назад',
-        }] )
+        }, ...prev] )
     }
-
+    // @ts-ignore
     return(
         <Box
         sx={{
