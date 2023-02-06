@@ -1,10 +1,10 @@
 // @ts-ignore
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import React from "react";
-import {routes} from "./list";
 import {Layout} from "../layout";
+import {routes} from "./list";
 
-export const Routes = () => {
+const Routes = () => {
     const isAuth =true
 
     return(
@@ -27,3 +27,5 @@ export const Routes = () => {
         </Router>
     )
 }
+
+export default Routes

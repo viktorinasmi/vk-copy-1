@@ -5,6 +5,7 @@ import {IPost} from "../../addPost/types";
 import {Posts} from "../../posts";
 import {initialPosts} from "./initialPosts";
 
+
 export const Home = () => {
     const [posts, setPosts] = useState<IPost[]>(initialPosts)
 
