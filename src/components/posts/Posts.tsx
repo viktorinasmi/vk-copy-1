@@ -55,7 +55,7 @@ export const Posts: FC<IPosts> = ({posts}) => {
                         </div>
                     </Link>
                     <p>{post.content}</p>
-                    {post.images?.length && (
+                    {post.images && post.images.length && (
                         <ImageList variant="masonry" cols={3} gap={8}>
                             {post.images.map(image => (
                                 <>
