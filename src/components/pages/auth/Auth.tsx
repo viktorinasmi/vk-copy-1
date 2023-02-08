@@ -54,6 +54,7 @@ export const Auth: FC = () => {
   const navigate = useNavigate();
   useEffect(() => {
     if (user) navigate("/");
+    //eslint-disable-next-line
   }, [user]);
 
   return (

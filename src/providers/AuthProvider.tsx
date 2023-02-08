@@ -19,19 +19,20 @@ export const AuthProvider: FC<any> = ({ children }) => {
 
   useEffect(() => {
     const unListen = onAuthStateChanged(ga, (authUser) => {
-      setUser(
-        authUser
-          ? {
-              _id: authUser.uid,
-              avatar: users[1].avatar,
-              name: authUser?.displayName || "",
-            }
-          : null
-      );
+      if (authUser)
+        setUser({
+          _id: authUser.uid,
+          avatar: users[1].avatar,
+          name: authUser?.displayName || "",
+        });
+      else {
+        setUser(null);
+      }
     });
     return () => {
       unListen();
     };
+    //eslint-disable-next-line
   }, []);
 
   const values = useMemo(

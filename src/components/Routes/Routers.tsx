@@ -4,6 +4,7 @@ import React from "react";
 import { routes } from "./list";
 import { useAuth } from "../../hooks/useAuth";
 import { Layout } from "../layout";
+import { Auth } from "../pages/auth";
 
 const Routers = () => {
   const { user } = useAuth();
@@ -12,12 +13,13 @@ const Routers = () => {
     <Router>
       <Routes>
         {routes.map((route) => {
-          if (route.auth && !user) {
-            return false;
-          }
           return (
             <Route
-              element={<Layout>{<route.component />}</Layout>}
+              element={
+                <Layout>
+                  {route.auth && !user ? <Auth /> : <route.component />}
+                </Layout>
+              }
               path={route.path}
               key={`roure${route.path}`}
             />
