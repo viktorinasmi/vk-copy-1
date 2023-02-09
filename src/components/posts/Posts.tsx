@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { collection, onSnapshot } from "firebase/firestore";
 import { initialPosts } from "../pages/home/initialPosts";
+import { Card } from "../card";
 
 export const Posts: FC = () => {
   const { db } = useAuth();
@@ -27,15 +28,7 @@ export const Posts: FC = () => {
   return (
     <>
       {posts.map((post, idx) => (
-        <Box
-          sx={{
-            border: "1px solid #e2e2e2",
-            borderRadius: "10px",
-            padding: 2,
-            marginTop: 3,
-          }}
-          key={`Post-${idx}`}
-        >
+        <Card key={`Post-${idx}`}>
           <Link
             key={post.author._id}
             to={`/profile/${post.author._id}}`}
@@ -84,7 +77,7 @@ export const Posts: FC = () => {
               ))}
             </ImageList>
           )}
-        </Box>
+        </Card>
       ))}
     </>
   );

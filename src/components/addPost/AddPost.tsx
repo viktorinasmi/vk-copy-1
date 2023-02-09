@@ -9,7 +9,7 @@ export const AddPost: FC = () => {
   const { user, db } = useAuth();
   const [error, setError] = useState("");
 
-  const addPostHandler = async (e: KeyboardEvent<HTMLDivElement>) => {
+  const addPostHandler = async (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && user) {
       try {
         await addDoc(collection(db, "posts"), {
