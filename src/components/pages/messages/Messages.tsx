@@ -4,6 +4,7 @@ import { IMessage } from "../../addPost/types";
 import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import {
   Alert,
+  Avatar,
   Divider,
   Fab,
   Grid,
@@ -36,9 +37,12 @@ export const Messages = () => {
   //вывод сообщений с сервера Firebase
   useEffect(() => {
     const unsub = onSnapshot(collection(db, "messages"), (doc) => {
+      //добавление сообщений без бага
+      const array: IMessage[] = [];
       doc.forEach((d: any) => {
-        setMessages((prev) => [d.data(), ...prev]); //фильтр вывода
+        array.push(d.data()); //фильтр вывода
       });
+      setMessages(array);
     });
 
     return () => {
@@ -55,42 +59,39 @@ export const Messages = () => {
       )}
       <Card>
         <List style={{ height: "65vh", overflowY: "auto" }}>
-          <ListItem key="1">
-            <Grid container style={{ textAlign: "right" }}>
-              <Grid item xs={12}>
-                <ListItemText
-                  style={{ color: "#1976d2" }}
-                  primary="Hey man, What's up ?"
-                />
+          {messages.map((msg, idx) => (
+            <ListItem key={idx}>
+              <Grid
+                container
+                sx={msg.user._id === user?._id ? { textAlign: "right" } : {}}
+              >
+                <Grid
+                  item
+                  style={{ display: "flex" }}
+                  xs={12}
+                  sx={
+                    msg.user._id === user?._id
+                      ? { justifyContent: "flex-end" }
+                      : { justifyContent: "flex-start" }
+                  }
+                >
+                  <Avatar
+                    style={{ width: "30", height: "30" }}
+                    src={msg.user.avatar}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <ListItemText
+                    sx={msg.user._id === user?._id ? { color: "#1976d2" } : {}}
+                    primary={msg.message}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <ListItemText secondary={msg.user.name} />
+                </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <ListItemText secondary="09:30" />
-              </Grid>
-            </Grid>
-          </ListItem>
-          <ListItem key="2">
-            <Grid container style={{ textAlign: "left" }}>
-              <Grid item xs={12}>
-                <ListItemText primary="Hey, Iam Good! What about you ?" />
-              </Grid>
-              <Grid item xs={12}>
-                <ListItemText secondary="09:31" />
-              </Grid>
-            </Grid>
-          </ListItem>
-          <ListItem key="3">
-            <Grid container style={{ textAlign: "right" }}>
-              <Grid item xs={12}>
-                <ListItemText
-                  style={{ color: "#1976d2" }}
-                  primary="Cool. i am good, let's catch up!"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <ListItemText secondary="10:30" />
-              </Grid>
-            </Grid>
-          </ListItem>
+            </ListItem>
+          ))}
         </List>
         <Divider />
         <Grid container style={{ padding: "20px" }}>
@@ -100,6 +101,7 @@ export const Messages = () => {
               label="Type Something"
               fullWidth
               onChange={(e) => setMessage(e.target.value)}
+              value={message}
             />
           </Grid>
           <Grid
