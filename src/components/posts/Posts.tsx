@@ -1,14 +1,29 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { IPost } from "../addPost/types";
 import { Avatar, Box, ImageList, ImageListItem } from "@mui/material";
 // @ts-ignore
 import { Link } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
+import { collection, onSnapshot } from "firebase/firestore";
+import { initialPosts } from "../pages/home/initialPosts";
 
-interface IPosts {
-  posts: IPost[];
-}
+export const Posts: FC = () => {
+  const { db } = useAuth();
+  const [posts, setPosts] = useState<IPost[]>(initialPosts);
 
-export const Posts: FC<IPosts> = ({ posts }) => {
+  //вывод постов с сервера Firebase
+  useEffect(() => {
+    const unsub = onSnapshot(collection(db, "posts"), (doc) => {
+      doc.forEach((d: any) => {
+        setPosts((prev) => [...prev, d.data()]);
+      });
+    });
+
+    return () => {
+      unsub();
+    };
+  }, []);
+
   return (
     <>
       {posts.map((post, idx) => (
